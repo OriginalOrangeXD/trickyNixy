@@ -7,18 +7,8 @@
   # manage.
   home.username = "ruxy";
   home.homeDirectory = "/home/ruxy";
+  home.stateVersion = "23.05"; 
 
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "23.05"; # Please read the comment before changing.
-
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -67,9 +57,45 @@
     # EDITOR = "emacs";
   };
   programs.neovim = {
-    enable = true;
+      enable = true;
 
-    plugins = with pkgs; [
+      plugins = with pkgs; [
+      # languages
+      vimPlugins.nvim-lspconfig
+      vimPlugins.nvim-treesitter.withAllGrammars
+      vimPlugins.rust-tools-nvim
+
+      # telescope
+      vimPlugins.plenary-nvim
+      vimPlugins.popup-nvim
+      vimPlugins.telescope-nvim
+
+      # theme
+      vimPlugins.catppuccin-nvim
+
+      # floaterm
+      vimPlugins.vim-floaterm
+
+      # extras
+      (vimPlugins.ChatGPT-nvim.overrideAttrs (old: {
+        src = fetchFromGitHub {
+          owner = "jackMort";
+          repo = "ChatGPT.nvim";
+          rev = "f499559f636676498692a2f19e74b077cbf52839";
+          sha256 = "sha256-98daaRkdrTZyNZuQPciaeRNuzyS52bsha4yyyAALcog=";
+        };
+      }))
+      vimPlugins.copilot-lua
+      vimPlugins.gitsigns-nvim
+      vimPlugins.lualine-nvim
+      vimPlugins.nerdcommenter
+      vimPlugins.noice-nvim
+      vimPlugins.nui-nvim
+      vimPlugins.nvim-colorizer-lua
+      vimPlugins.nvim-notify
+      vimPlugins.nvim-treesitter-context
+      vimPlugins.nvim-ts-rainbow2
+      #vimPlugins.nvim-web-devicons # https://github.com/intel/intel-one-mono/issues/9
 
       # configuration
       inputs.self.packages.${pkgs.system}.ruxy-nvim
@@ -82,6 +108,42 @@
     '';
 
     extraPackages = with pkgs; [
+      # languages
+      jsonnet
+      nodejs
+      python310Full
+      rustc
+
+      # language servers
+      gopls
+      haskell-language-server
+      jsonnet-language-server
+      lua-language-server
+      nil
+      nodePackages."bash-language-server"
+      nodePackages."diagnostic-languageserver"
+      nodePackages."dockerfile-language-server-nodejs"
+      nodePackages."pyright"
+      nodePackages."typescript"
+      nodePackages."typescript-language-server"
+      nodePackages."vscode-langservers-extracted"
+      nodePackages."yaml-language-server"
+      rust-analyzer
+      terraform-ls
+
+      # formatters
+      gofumpt
+      golines
+      nixpkgs-fmt
+      python310Packages.black
+      rustfmt
+
+      # tools
+      cargo
+      gcc
+      ghc
+      lazydocker
+      yarn
     ];
   };
 
