@@ -1,4 +1,8 @@
+local copilot = require 'copilot'
 local lspconfig = require 'lspconfig'
+local rust_tools = require 'rust-tools'
+local treesitter = require 'nvim-treesitter.configs'
+local treesitter_context = require 'treesitter-context'
 
 local function autocmd(args)
     local event = args[1]
@@ -48,6 +52,20 @@ local function on_attach(client, buffer)
 end
 
 local function init()
+    -- Copilot setup
+    copilot.setup {
+        suggestion = {
+            auto_trigger = true,
+        }
+    }
+
+    -- Rust specific setup
+    rust_tools.setup {
+        server = {
+            on_attach = on_attach,
+        },
+    }
+
     local language_servers = {
         bashls = {},
         cssls = {},
@@ -69,6 +87,7 @@ local function init()
                 },
             }
         },
+        dockerls = {},
         gopls = {
             settings = {
                 gopls = {
@@ -98,6 +117,13 @@ local function init()
                 },
             }
         },
+        nil_ls = {
+            settings = {
+                ['nil'] = {
+                    formatting = { command = { "nixpkgs-fmt" } },
+                },
+            }
+        },
         pyright = {
             settings = {
                 python = {
@@ -109,11 +135,12 @@ local function init()
                 },
             },
         },
+        terraformls = {},
         tsserver = {},
         yamlls = {},
-        arduino-language-server = {},
     }
-        -- Initialize servers
+
+    -- Initialize servers
     for server, server_config in pairs(language_servers) do
         local config = { on_attach = on_attach }
 
@@ -125,14 +152,23 @@ local function init()
 
         lspconfig[server].setup(config)
     end
+
     -- Global mappings.
     -- See `:help vim.diagnostic.*` for documentation on any of the below functions
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
     vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+
+    treesitter.setup {
+        highlight = { enable = true },
+        indent = { enable = true },
+        rainbow = { enable = true },
+    }
+
+    treesitter_context.setup()
 end
 
 return {
-	init = init,
+    init = init,
 }

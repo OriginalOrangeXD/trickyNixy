@@ -42,6 +42,35 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
+  programs.tmux = {
+    enable = true;
+    extraConfig = ''
+      set-option -a terminal-overrides ",*256col*:RGB"
+    '';
+    shell = "${pkgs.zsh}/bin/zsh";
+    terminal = "xterm-256color";
+  };
+    programs.zsh = {
+    enable = true;
+    enableAutosuggestions = true;
+    enableCompletion = true;
+    syntaxHighlighting = {
+      enable = true;
+    };
+
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" ];
+    };
+
+    shellAliases = {
+      cat = "bat";
+      wt = "git worktree";
+      vim = "nvim";
+    };
+
+
+  };
 
   # You can also manage environment variables but you will have to manually
   # source
@@ -75,6 +104,16 @@
 
       # floaterm
       vimPlugins.vim-floaterm
+      
+      # PRIME
+      vimPlugins.harpoon
+
+      vimPlugins.lsp-zero-nvim
+      vimPlugins.nvim-cmp
+      vimPlugins.cmp-nvim-lsp
+
+      arduino-language-server
+      lua-language-server
 
       # extras
       (vimPlugins.ChatGPT-nvim.overrideAttrs (old: {

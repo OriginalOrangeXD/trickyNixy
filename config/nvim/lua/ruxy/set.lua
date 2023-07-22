@@ -1,4 +1,7 @@
 local function set_vim_opt()
+    -- REMOVE LATER
+    vim.g.mapleader = " "
+         ------
 	vim.opt.guicursor = ""
 	
 	vim.opt.nu = true

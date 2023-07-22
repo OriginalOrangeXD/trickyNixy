@@ -90,7 +90,7 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     corectrl
-    nodejs_20
+    nodejs_18
     dwm
     dmenu
     alacritty
@@ -105,6 +105,7 @@
     rofi
     steam
     git
+    starship
     feh
     tldr
     zsh
@@ -120,6 +121,12 @@
     virtmanager
     qemu_kvm
     #####
+    rustup
+    arduino-cli
+    rustc
+    cargo
+    cargo-generate
+    wasm-pack 
     flameshot
     nerdfonts
     rust-analyzer
@@ -130,8 +137,11 @@
     xorg.xinit
     lutris
     killall
+    bat
+    openssl
     picom
     libgccjit
+    gccgo13
     keepassxc
     thefuck
     tmux
