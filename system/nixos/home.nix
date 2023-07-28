@@ -42,6 +42,14 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
+  programs.kitty = {
+      enable = true;
+      settings = {
+          background_opacity = "0.9";
+          font_size = "15";
+      };
+      theme = "Catppuccin-Macchiato";
+  };
   programs.tmux = {
     enable = true;
     extraConfig = ''
@@ -93,6 +101,7 @@
       vimPlugins.nvim-lspconfig
       vimPlugins.nvim-treesitter.withAllGrammars
       vimPlugins.rust-tools-nvim
+      vimPlugins.clangd_extensions-nvim
 
       # telescope
       vimPlugins.plenary-nvim

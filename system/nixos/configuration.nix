@@ -92,6 +92,9 @@
     corectrl
     nodejs_18
     dwm
+    clang-tools
+    arduino
+    nnn
     dmenu
     alacritty
     emacs
@@ -121,12 +124,7 @@
     virtmanager
     qemu_kvm
     #####
-    rustup
     arduino-cli
-    rustc
-    cargo
-    cargo-generate
-    wasm-pack 
     flameshot
     nerdfonts
     rust-analyzer
