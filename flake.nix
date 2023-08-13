@@ -30,6 +30,11 @@
           system = "x86_64";
           username = "ruxy";
 	};
+	ruxyLap = systems.mkNixOS {
+	  desktop = false;
+          system = "x86_64";
+          username = "ruxy";
+	};
       };
     };
   };

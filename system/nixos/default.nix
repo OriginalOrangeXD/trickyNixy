@@ -8,20 +8,20 @@ let
   configuration = import ./configuration.nix { inherit desktop username; };
 in 
 inputs.nixpkgs.lib.nixosSystem {
-	  inherit system;
-	  modules = [ 
-          configuration
-          desktop-conf
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.ruxy = import ./home.nix {
-		inherit desktop inputs;
-	    };
-
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
-          }
-          ];
+	inherit system;
+	modules = [ 
+		configuration
+		inputs.home-manager.nixosModules.home-manager
+		{
+			home-manager.useGlobalPkgs = true;
+			home-manager.useUserPackages = true;
+			home-manager.users.ruxy = import ./home.nix {
+				inherit desktop inputs;
+			};
+		}
+	]++ (if desktop then [
+			(import ./hardware/desktop.nix)
+	] else [ 
+		(import ./hardware/laptop.nix)
+	]);
 }
