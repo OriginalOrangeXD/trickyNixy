@@ -22,11 +22,11 @@
     };
   };
   networking.interfaces.br0.ipv4.addresses = [ {
-    address = "192.168.2.203";
+    address = "192.168.1.69";
     prefixLength = 24;
   } ];
-  networking.defaultGateway = "192.168.2.1";
-  networking.nameservers = ["192.168.2.1" "8.8.8.8"];
+  networking.defaultGateway = "192.168.1.1";
+  networking.nameservers = ["192.168.1.1" "8.8.8.8"];
 
   # Set your time zone.
   time.timeZone = "America/NewYork";
@@ -108,6 +108,7 @@
     rofi
     steam
     git
+    busybox
     starship
     feh
     tldr
@@ -132,7 +133,12 @@
     arduino-language-server
     looking-glass-client
     cachix
+    teensy-loader-cli
+    platformio
+    avrdude
+    nodePackages_latest.gitmoji-cli
     xorg.xinit
+    poetry
     lutris
     killall
     bat
@@ -231,6 +237,18 @@ programs.zsh = {
   virtualisation.libvirtd.qemu.verbatimConfig = ''
     nvram = [ "${pkgs.OVMF}/FV/OVMF.fd:${pkgs.OVMF}/FV/OVMF_VARS.fd" ]
   '';
+  services.udev.extraRules = ''
+      # UDEV rules for Teensy USB devices
+      ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+      ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
+      KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
+  '';
+  services.udev.packages = [ 
+      pkgs.platformio
+      pkgs.openocd
+  ];
+
   ####################
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
