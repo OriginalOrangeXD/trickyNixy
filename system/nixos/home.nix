@@ -9,6 +9,8 @@
   home.homeDirectory = "/home/ruxy";
   home.stateVersion = "23.05"; 
 
+  imports = if desktop then [ ./deskHome.nix ] else [ ./lapHome.nix ];
+
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -41,14 +43,6 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-  };
-  programs.kitty = {
-      enable = true;
-      settings = {
-          background_opacity = "0.9";
-          font_size = "15";
-      };
-      theme = "Catppuccin-Macchiato";
   };
   programs.tmux = {
     enable = true;

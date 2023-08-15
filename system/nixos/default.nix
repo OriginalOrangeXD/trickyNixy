@@ -4,8 +4,6 @@
 
 let 
   default-conf = import ./defaultConfig.nix;
-  desktop-conf = import ./hardware/desktop.nix;
-  laptop-conf  = import ./hardware/laptop.nix;
 in 
 inputs.nixpkgs.lib.nixosSystem {
 	inherit system;
