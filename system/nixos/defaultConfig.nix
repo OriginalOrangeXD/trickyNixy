@@ -130,9 +130,14 @@
     '';
     };
   nixpkgs.overlays = [
-    (final: prev: {
-      dwm = prev.dwm.overrideAttrs (old: { src = /home/ruxy/git/dwm-ruxy ;});
-    })
+    (self: super: {
+	dwm = super.dwm.overrideAttrs(_: {
+	  src = builtins.fetchGit {
+		url = "git@github.com:OriginalOrangeXD/dwm-ruxy.git";
+		rev = "f7113e9907b4ed31444059a2251eebe501cde4d0";
+	};
+    });
+   })
   ];
 programs.zsh = {
 	enable = true;

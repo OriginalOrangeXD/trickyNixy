@@ -4,7 +4,7 @@ The goal of this project is to have a single flake that can build both my deskto
 
 ## Description
 
-Overall this flake is just epic. I can now wipe my laptop infinite times and through nix know how to build my exact setup up again. This includes vim themes and binds, oh-my-zsh and wallpapers(SOON)
+Overall this flake is just epic. I can now wipe my laptop infinite times and through nix know how to build my exact setup up again. This includes vim themes and binds, oh-my-zsh and wallpapers(SOON). Things are not fully pure(But it runs without the --impure flag) in this repo yet and there are a few things that need to be optimized. But this is a stable local minima that I can comfortably transefer dev setup from desktop to laptop.
 
 ## Getting Started
 
@@ -15,10 +15,10 @@ Nix :)
 ### Installing
 
 #### Laptop
-```nixos-rebuild switch --flake .#ruxyLap --impure```
+```nixos-rebuild switch --flake .#ruxyLap```
 
 #### Desktop
-```nixos-rebuild switch --flake .#ruxyDesk ```
+```nixos-rebuild switch --flake .#ruxyDesk```
 
 ## Authors
 
