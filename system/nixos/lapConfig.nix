@@ -27,16 +27,6 @@
     '';
 };
 
-  # Set your time zone.
-  time.timeZone = "America/NewYork";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    useXkbConfig = true; # use xkbOptions in tty.
-  };
-# Make sure opengl is enabled
 
 
   # Enable the X11 windowing system.
@@ -51,14 +41,10 @@
 
 
   services.xserver.layout = "us";
-  
   services.xserver.xkbVariant = "dvorak";
   services.xserver.xkbOptions = "caps:escape";
 
 
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ruxy = {
@@ -76,155 +62,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    corectrl
-    nodejs_18
-    dwm
-    clang-tools
-    arduino
-    nnn
-    dmenu
-    alacritty
-    emacs
-    st
-    neofetch
-    kitty
-    gh
-    terminus_font
-    starship
-    glxinfo
-    rofi
-    steam
-    git
-    busybox
-    starship
-    feh
-    tldr
-    zsh
-    unzip
-    xfce.thunar
-    qemu
-    arduino-cli
-    flameshot
-    nerdfonts
-    rust-analyzer
-    nodePackages_latest.typescript-language-server
-    arduino-language-server
-    looking-glass-client
-    cachix
-    teensy-loader-cli
-    platformio
-    avrdude
-    nodePackages_latest.gitmoji-cli
-    xorg.xinit
-    poetry
-    lutris
-    killall
-    bat
-    openssl
-    picom
-    libgccjit
-    gccgo13
-    keepassxc
-    thefuck
-    tmux
-    nitrogen
-    neovim
-    (lutris.override {
-	extraPkgs = pkgs: [
-		wineWowPackages.stable
-		winetricks
-	];
-	})
+      xorg.xbacklight
   ];
-  systemd.tmpfiles.rules = [
-	  "f /dev/shm/looking-glass 0660 ruxy qemu-libvirtd -"
-  ];
-  programs.steam = {
-	enable = true;
-	remotePlay.openFirewall = true;
-	dedicatedServer.openFirewall = true;
-};
-  services.picom.enable = true;
-  
-
-    programs.tmux = {
-    enable = true;
-    shortcut = "b";
-    # aggressiveResize = true; -- Disabled to be iTerm-friendly
-    baseIndex = 1;
-    newSession = true;
-    # Stop tmux+escape craziness.
-    escapeTime = 0;
-    # Force tmux to use /tmp for sockets (WSL2 compat)
-    secureSocket = false;
-
-    plugins = with pkgs; [
-      tmuxPlugins.better-mouse-mode
-    ];
-
-    extraConfig = ''
-      set -g default-terminal "xterm-256color"
-      set -ga terminal-overrides ",*256col*:Tc"
-      set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'
-      set-environment -g COLORTERM "truecolor"
-
-      # Mouse works as expected
-      set-option -g mouse on
-      # easy-to-remember split pane commands
-      bind | split-window -h -c "#{pane_current_path}"
-      bind - split-window -v -c "#{pane_current_path}"
-      bind c new-window -c "#{pane_current_path}"
-      run-shell ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/resurrect.tmux
-      run-shell ${pkgs.tmuxPlugins.nord}/share/tmux-plugins/nord/nord.tmux
-    '';
-    };
-  nixpkgs.overlays = [
-    (final: prev: {
-      dwm = prev.dwm.overrideAttrs (old: { src = /home/robby/git/dwm-ruxy ;});
-    })
-  ];
-programs.zsh = {
-	enable = true;
-	shellAliases = {
-		ll = "ls -l";
-		update = "sudo nixos-rebuild switch";
-	};
-  interactiveShellInit = ''
-	eval "$(starship init zsh)"
-    '';
- ohMyZsh = {
-    enable = true;
-    plugins = [ "git" "thefuck" ];
-  };
-};
-  fonts.fonts = with pkgs; [
-  (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-  ];
-  
-  # CHANGE: add your own user here
-  users.groups.libvirtd.members = [ "root" "ruxy"];
-  services.udev.extraRules = ''
-      # UDEV rules for Teensy USB devices
-      ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-      KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
-  '';
-  services.udev.packages = [ 
-      pkgs.platformio
-      pkgs.openocd
-  ];
-
-  ####################
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
-
 }
 
