@@ -63,6 +63,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
       xorg.xbacklight
+      sutils
   ];
 }
 
