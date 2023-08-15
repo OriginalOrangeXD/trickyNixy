@@ -150,7 +150,7 @@ programs.zsh = {
   };
 };
   fonts.fonts = with pkgs; [
-  (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+        (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
     services.udev.extraRules = ''
       # UDEV rules for Teensy USB devices

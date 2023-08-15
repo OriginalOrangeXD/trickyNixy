@@ -43,7 +43,7 @@
   services.xserver.layout = "us";
   services.xserver.xkbVariant = "dvorak";
   services.xserver.xkbOptions = "caps:escape";
-
+  services.xserver.dpi = 227;
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
