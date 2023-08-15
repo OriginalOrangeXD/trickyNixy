@@ -5,12 +5,10 @@
 let 
   desktop-conf = import ./hardware/desktop.nix;
   laptop-conf  = import ./hardware/laptop.nix;
-  configuration = import ./configuration.nix { inherit desktop username; };
 in 
 inputs.nixpkgs.lib.nixosSystem {
 	inherit system;
 	modules = [ 
-		configuration
 		inputs.home-manager.nixosModules.home-manager
 		{
 			home-manager.useGlobalPkgs = true;
@@ -19,9 +17,11 @@ inputs.nixpkgs.lib.nixosSystem {
 				inherit desktop inputs;
 			};
 		}
-	]++ (if desktop then [
+	] ++ (if desktop then [
 			(import ./hardware/desktop.nix)
+			(import ./deskConfig.nix { inherit desktop username; })
 	] else [ 
 		(import ./hardware/laptop.nix)
+		(import ./lapConfig.nix { inherit desktop username; })
 	]);
 }
