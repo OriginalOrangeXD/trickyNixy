@@ -15,10 +15,10 @@ Nix :)
 ### Installing
 
 #### Laptop
-nixos-rebuild switch --flake .#ruxyLap --impure 
+```nixos-rebuild switch --flake .#ruxyLap --impure```
 
 #### Desktop
-nixos-rebuild switch --flake .#ruxyDesk 
+```nixos-rebuild switch --flake .#ruxyDesk ```
 
 ## Authors
 
