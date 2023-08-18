@@ -129,16 +129,6 @@
       run-shell ${pkgs.tmuxPlugins.nord}/share/tmux-plugins/nord/nord.tmux
     '';
     };
-  nixpkgs.overlays = [
-    (self: super: {
-	dwm = super.dwm.overrideAttrs(_: {
-	  src = builtins.fetchGit {
-		url = "git@github.com:OriginalOrangeXD/dwm-ruxy.git";
-		rev = "f7113e9907b4ed31444059a2251eebe501cde4d0";
-	};
-    });
-   })
-  ];
 programs.zsh = {
 	enable = true;
 	shellAliases = {

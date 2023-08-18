@@ -15,20 +15,22 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "ruxy-nixos"; # Define your hostname.
-  networking.wireless.enable = true;
-  networking.wireless.userControlled.enable = true;
-  networking.useDHCP = true;
-  networking.wireless.environmentFile = "/home/ruxy/.env/wireless.env";
-  networking.wireless.networks."Max" = { 
-    hidden = true;
-    auth = ''
-      key_mgmt=WPA-PSK
-      psk="@PSK_HOME@"
-    '';
-};
+  #networking.wireless.enable = true;
+  #networking.wireless.userControlled.enable = true;
+  #networking.useDHCP = true;
+#   networking.wireless.environmentFile = "/home/ruxy/.env/wireless.env";
+#   networking.wireless.networks."Max" = { 
+#     hidden = true;
+#     auth = ''
+#       key_mgmt=WPA-PSK
+#       psk="@PSK_HOME@"
+#     '';
+# };
+
+networking.networkmanager.enable = true;
 
 
-
+networking.firewall.enable = true;
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.windowManager.dwm.enable = true;
@@ -61,9 +63,17 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+  services.power-profiles-daemon.enable = false;
+  services.tlp.enable = true;
   environment.systemPackages = with pkgs; [
       xorg.xbacklight
       sutils
+      tlp
+  ];
+  nixpkgs.overlays = [
+    (final: prev: {
+      dwm = prev.dwm.overrideAttrs (old: { src = /home/ruxy/git/dwm-ruxy ;});
+    })
   ];
 }
 
