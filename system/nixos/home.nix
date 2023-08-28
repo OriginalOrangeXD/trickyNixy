@@ -154,6 +154,7 @@
       jsonnet
       nodejs
       python310Full
+      python310Packages.pip
       rustc
 
       # language servers

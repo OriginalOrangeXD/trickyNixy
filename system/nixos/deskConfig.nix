@@ -17,6 +17,10 @@
     address = "192.168.1.69";
     prefixLength = 24;
   } ];
+  networking.interfaces.br0.ipv4.addresses = [ {
+    address = "172.16.16.23";
+    prefixLength = 12;
+  } ];
   networking.defaultGateway = "192.168.1.1";
   networking.nameservers = ["192.168.1.1" "8.8.8.8"];
   # Make sure opengl is enabled
@@ -75,6 +79,8 @@
     qemu_kvm
     #####
     libimobiledevice
+    python3Full
+    python310Packages.lark
   ];
   systemd.tmpfiles.rules = [
 	  "f /dev/shm/looking-glass 0660 ruxy qemu-libvirtd -"
