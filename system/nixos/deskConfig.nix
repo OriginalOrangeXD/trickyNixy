@@ -102,5 +102,15 @@
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
       KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
   '';
+  nixpkgs.overlays = [
+    (self: super: {
+        dwm = super.dwm.overrideAttrs(_: {
+          src = builtins.fetchGit {
+        	url = "git@github.com:OriginalOrangeXD/dwm-ruxy.git";
+        	rev = "f7113e9907b4ed31444059a2251eebe501cde4d0";
+        };
+    });
+   })
+  ];
 }
 
