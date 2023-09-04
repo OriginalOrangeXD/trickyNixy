@@ -84,6 +84,11 @@
     tmux
     nitrogen
     neovim
+    kdenlive
+    mediainfo 
+    glaxnimate
+    audacity
+    cura
     (lutris.override {
 	extraPkgs = pkgs: [
 		wineWowPackages.stable
