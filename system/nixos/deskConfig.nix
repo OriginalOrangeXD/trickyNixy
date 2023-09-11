@@ -75,9 +75,7 @@
     qemu_kvm
     #####
     libimobiledevice
-    python3Full
     freecad
-    python310Packages.lark
   ];
   systemd.tmpfiles.rules = [
 	  "f /dev/shm/looking-glass 0660 ruxy qemu-libvirtd -"

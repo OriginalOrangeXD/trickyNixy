@@ -3,7 +3,6 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 
 { pkgs, ... }:
-
 {
   nix.settings.trusted-users = [ "root" "ruxy" ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -30,6 +29,7 @@
 
   environment.systemPackages = with pkgs; [
     vim 
+    bluez
     ripgrep
     wget
     corectrl
@@ -89,6 +89,18 @@
     glaxnimate
     audacity
     cura
+    gst_all_1.gstreamer
+# Common plugins like "filesrc" to combine within e.g. gst-launch
+    gst_all_1.gst-plugins-base
+# Specialized plugins separated by quality
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-plugins-ugly
+# Plugins to reuse ffmpeg to play almost every video format
+    gst_all_1.gst-libav
+# Support the Video Audio (Hardware) Acceleration API
+    gst_all_1.gst-vaapi
+    pcmanfm
     (lutris.override {
 	extraPkgs = pkgs: [
 		wineWowPackages.stable
@@ -162,6 +174,8 @@ programs.zsh = {
       pkgs.platformio
       pkgs.openocd
   ];
+  services.blueman.enable = true;
+  services.gvfs.enable = true;
 
   system.stateVersion = "23.05";
 }
