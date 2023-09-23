@@ -29,7 +29,11 @@
 
   environment.systemPackages = with pkgs; [
     vim 
+    go
+    tetex
+    texlive.combined.scheme-full
     bluez
+    zathura
     ripgrep
     wget
     corectrl

@@ -19,6 +19,9 @@
   } ];
   networking.defaultGateway = "192.168.1.1";
   networking.nameservers = ["192.168.1.1" "8.8.8.8"];
+  networking.hosts."127.0.0.1" = [ "this.pre-initializes.the.dns.resolvers.invalid." ];
+  networking.enableIPv6 = false;
+  # Make sure opengl is enabled
   # Make sure opengl is enabled
   hardware = {
       opengl.extraPackages= with pkgs; [
@@ -27,6 +30,7 @@
               amdvlk
       ];
   };
+  networking.firewall.enable = false;
 
 
   # Enable the X11 windowing system.
@@ -71,7 +75,6 @@
     win-virtio
     OVMF
     qemu
-    virtmanager
     qemu_kvm
     #####
     libimobiledevice

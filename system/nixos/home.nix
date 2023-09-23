@@ -96,6 +96,7 @@
       vimPlugins.nvim-treesitter.withAllGrammars
       vimPlugins.rust-tools-nvim
       vimPlugins.clangd_extensions-nvim
+      vimPlugins.vimtex
 
       # telescope
       vimPlugins.plenary-nvim
