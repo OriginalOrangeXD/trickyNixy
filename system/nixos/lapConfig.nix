@@ -64,12 +64,35 @@ networking.firewall.enable = true;
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   services.power-profiles-daemon.enable = false;
-  services.tlp.enable = true;
+  services.tlp = {
+	enable = true;
+	settings = {
+	    USB_EXCLUDE_BTUSB=1;
+	};
+  };
   environment.systemPackages = with pkgs; [
-      xorg.xbacklight
       sutils
       tlp
+      xbrightness
+      virt-manager
+      virt-viewer
+      win-virtio
+      OVMF
+      qemu
+      qemu_kvm
   ];
+  services.actkbd = {
+    enable = true;
+    bindings = [
+      { keys = [ 233 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/xbrightness +10000"; }
+      { keys = [ 232 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/xbrightness -10000"; }
+    ];
+  };
+  virtualisation.libvirtd = {
+		enable = true;
+	};
+  # CHANGE: add your own user here
+  users.groups.libvirtd.members = [ "root" "ruxy"];
   nixpkgs.overlays = [
     (final: prev: {
       dwm = prev.dwm.overrideAttrs (old: { src = /home/ruxy/git/dwm-ruxy ;});

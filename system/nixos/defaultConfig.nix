@@ -29,6 +29,7 @@
 
   environment.systemPackages = with pkgs; [
     vim 
+    gcc_multi
     go
     tetex
     texlive.combined.scheme-full

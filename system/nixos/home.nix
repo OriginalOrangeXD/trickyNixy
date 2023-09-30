@@ -185,6 +185,7 @@
       # tools
       cargo
       gcc
+      gcc_multi
       ghc
       lazydocker
       yarn

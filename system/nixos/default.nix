@@ -20,10 +20,12 @@ inputs.nixpkgs.lib.nixosSystem {
 	] ++ (if desktop then [
 			(import ./hardware/desktop.nix)
             (import ./python.nix)
+	    (import ./postgres.nix)
 			(import ./deskConfig.nix { inherit desktop username; })
 	] else [ 
         (import ./python.nix)
 		(import ./hardware/laptop.nix)
+	    (import ./postgres.nix)
 		(import ./lapConfig.nix { inherit desktop username; })
 	]);
 }
