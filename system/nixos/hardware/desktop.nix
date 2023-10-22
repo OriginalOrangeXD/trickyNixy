@@ -52,4 +52,5 @@
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.bluetooth.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.opentabletdriver.enable = true;
 }

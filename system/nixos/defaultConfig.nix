@@ -15,6 +15,7 @@
 
   # Set your time zone.
   time.timeZone = "America/NewYork";
+  virtualisation.docker.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -30,6 +31,7 @@
   environment.systemPackages = with pkgs; [
     vim 
     gcc_multi
+    docker
     go
     tetex
     texlive.combined.scheme-full

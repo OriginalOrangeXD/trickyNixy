@@ -31,6 +31,11 @@
       ];
   };
   networking.firewall.enable = false;
+  virtualisation.docker.rootless = {
+  enable = true;
+  setSocketVariable = true;
+};
+
 
 
   # Enable the X11 windowing system.
@@ -56,7 +61,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ruxy = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "libvirtd" "kvm" "input" "disk" "libvirtd" "video" "audio"]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "docker" "wheel" "libvirtd" "kvm" "input" "disk" "libvirtd" "video" "audio"]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       firefox
       arduino
@@ -77,6 +82,7 @@
     qemu
     qemu_kvm
     #####
+    write_stylus
     libimobiledevice
     freecad
   ];
