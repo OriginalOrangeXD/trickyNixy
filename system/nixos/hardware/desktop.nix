@@ -9,6 +9,7 @@
     ];
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   boot.initrd.kernelModules = [ 
 	"amdgpu"        
 	"vfio_pci"

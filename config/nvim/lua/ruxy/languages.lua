@@ -1,4 +1,3 @@
-local copilot = require 'copilot'
 local lspconfig = require 'lspconfig'
 local rust_tools = require 'rust-tools'
 local treesitter = require 'nvim-treesitter.configs'
@@ -52,13 +51,6 @@ local function on_attach(client, buffer)
 end
 
 local function init()
-    -- Copilot setup
-    copilot.setup {
-        suggestion = {
-            auto_trigger = true,
-        }
-    }
-
     -- Rust specific setup
     rust_tools.setup {
         server = {

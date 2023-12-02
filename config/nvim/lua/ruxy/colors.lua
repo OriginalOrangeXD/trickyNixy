@@ -1,22 +1,23 @@
 local catppuccin = require 'catppuccin'
+local onedark = require 'onedarkpro'
 local colorizer = require 'colorizer'
 local gitsigns = require 'gitsigns'
 local lualine = require 'lualine'
 local noice = require 'noice'
 
 local function init()
-    catppuccin.setup({
-        flavour = "macchiato",
-        integrations = {
-            --indent_blankline = { enabled = true },
-            native_lsp = {
-                enabled = true,
-            },
-            telescope = true,
-            treesitter = true,
+    onedark.setup({
+        -- integrations = {
+        --     --indent_blankline = { enabled = true },
+        --     native_lsp = {
+        --         enabled = true,
+        --     },
+        --     telescope = true,
+        --     treesitter = true,
+        -- },
+        options = {
+            transparency = true
         },
-        term_colors = true,
-        transparent_background = true,
     })
 
 
@@ -25,15 +26,15 @@ local function init()
             component_separators = { left = '', right = '' },
             icons_enabled = false,
             section_separators = { left = '', right = '' },
-            theme = "catppuccin"
+            theme = "onedark"
         }
     }
 
-    vim.cmd.colorscheme "catppuccin"
+    vim.cmd.colorscheme "onedark"
 end
 
 function ColorMyPencils(color)
-	color = color or "nord"
+	color = color or "onedark"
 	vim.cmd.colorscheme(color)
 
 	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })

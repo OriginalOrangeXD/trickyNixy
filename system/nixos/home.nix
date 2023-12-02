@@ -46,11 +46,35 @@
   };
   programs.tmux = {
     enable = true;
+    clock24 = true;
     extraConfig = ''
       set-option -a terminal-overrides ",*256col*:RGB"
+      setw -g mode-keys vi
+      bind-key h select-pane -L
+      bind-key j select-pane -D
+      bind-key k select-pane -U
+      bind-key l select-pane -R
+	  set -g mouse on
+
+      set -g status-position top
     '';
     shell = "${pkgs.zsh}/bin/zsh";
-    terminal = "xterm-256color";
+
+    plugins = with pkgs.tmuxPlugins; [
+        sensible
+		yank
+        vim-tmux-navigator
+        {
+			plugin = dracula;
+			extraConfig = ''
+				set -g @dracula-show-battery false
+				set -g @dracula-show-powerline true
+                set -g @dracula-fixed-location "Based-City"
+                set -g @dracula-show-fahrenheit false
+				set -g @dracula-refresh-rate 10
+			'';
+		}
+    ];
   };
     programs.zsh = {
     enable = true;
@@ -105,6 +129,7 @@
 
       # theme
       vimPlugins.catppuccin-nvim
+      vimPlugins.onedarkpro-nvim
 
       # floaterm
       vimPlugins.vim-floaterm
@@ -119,16 +144,7 @@
       arduino-language-server
       lua-language-server
 
-      # extras
-      (vimPlugins.ChatGPT-nvim.overrideAttrs (old: {
-        src = fetchFromGitHub {
-          owner = "jackMort";
-          repo = "ChatGPT.nvim";
-          rev = "f499559f636676498692a2f19e74b077cbf52839";
-          sha256 = "sha256-98daaRkdrTZyNZuQPciaeRNuzyS52bsha4yyyAALcog=";
-        };
-      }))
-      vimPlugins.copilot-lua
+      vimPlugins.vim-tmux-navigator
       vimPlugins.gitsigns-nvim
       vimPlugins.lualine-nvim
       vimPlugins.nerdcommenter

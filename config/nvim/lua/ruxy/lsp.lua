@@ -109,6 +109,11 @@ local function init()
                 },
             },
         },
+        typst_lsp = {
+            settings = {
+                exportPdf = "onType",
+            },
+        },
         tsserver = {},
         yamlls = {},
         arduino-language-server = {},

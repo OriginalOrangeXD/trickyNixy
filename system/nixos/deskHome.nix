@@ -6,6 +6,6 @@
           font_size = "15";
 	  enable_audio_bell="no";
       };
-      theme = "Catppuccin-Macchiato";
+      theme = "Darkside";
   };
 }

@@ -19,7 +19,8 @@
   } ];
   networking.defaultGateway = "192.168.1.1";
   networking.nameservers = ["192.168.1.1" "8.8.8.8"];
-  networking.hosts."127.0.0.1" = [ "this.pre-initializes.the.dns.resolvers.invalid." ];
+
+  networking.firewall.enable = false;
   networking.enableIPv6 = false;
   # Make sure opengl is enabled
   # Make sure opengl is enabled
@@ -30,7 +31,6 @@
               amdvlk
       ];
   };
-  networking.firewall.enable = false;
   virtualisation.docker.rootless = {
   enable = true;
   setSocketVariable = true;
@@ -70,6 +70,10 @@
       obs-studio
     ];
   };
+ services.nix-serve = {
+   enable = true;
+   secretKeyFile = "/home/ruxy/keys/cache-priv-key.pem";
+ };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -106,6 +110,30 @@
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
       KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
   '';
+  services = {
+      syncthing = {
+          enable = true;
+          user = "ruxy";
+          dataDir = "/home/ruxy/syncthing";
+          configDir = "/home/ruxy/syncthing/.config/syncthing";
+          overrideDevices = true;     # overrides any devices added or deleted through the WebUI
+              overrideFolders = true;     # overrides any folders added or deleted through the WebUI
+              devices = {
+                  "touch" = { id = "UTCVJC7-GLJRFVT-HP2AW2J-KSVJVUU-F5JVJG3-LKR2CSJ-BF5K45V-O7Z3AAP"; };
+                  "boox" = { id =  "YQYN5TV-K7IPUBA-LYOMHSB-HR2R7IF-C4PUAKP-Q237CBU-D7ZJKZO-N4MLDQZ"; };
+              };
+          folders = {
+              "Music" = {        # Name of folder in Syncthing, also the folder ID
+                  path = "/home/ruxy/Music";    # Which folder to add to Syncthing
+                      devices = [ "touch" "boox" ];      # Which devices to share the folder with
+              };
+              "Books" = {        # Name of folder in Syncthing, also the folder ID
+                  path = "/home/ruxy/Books";    # Which folder to add to Syncthing
+                      devices = [ "touch" "boox" ];      # Which devices to share the folder with
+              };
+          };
+      };
+  };
   nixpkgs.overlays = [
     (self: super: {
         dwm = super.dwm.overrideAttrs(_: {
