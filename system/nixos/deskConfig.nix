@@ -85,6 +85,7 @@
     OVMF
     qemu
     qemu_kvm
+    spice
     #####
     write_stylus
     libimobiledevice

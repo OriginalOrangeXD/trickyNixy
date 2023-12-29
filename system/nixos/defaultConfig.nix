@@ -77,7 +77,6 @@
     teensy-loader-cli
     platformio
     avrdude
-    nodePackages_latest.gitmoji-cli
     xorg.xinit
     poetry
     lutris
