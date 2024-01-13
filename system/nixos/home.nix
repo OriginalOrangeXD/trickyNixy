@@ -1,7 +1,6 @@
 { desktop, inputs }:
 
 { config, pkgs, ... }:
-
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -154,6 +153,7 @@
       vimPlugins.nvim-notify
       vimPlugins.nvim-treesitter-context
       vimPlugins.rainbow-delimiters-nvim
+      vimPlugins.omnisharp-extended-lsp-nvim
       #vimPlugins.nvim-web-devicons # https://github.com/intel/intel-one-mono/issues/9
 
       # configuration
@@ -170,11 +170,12 @@
       # languages
       jsonnet
       nodejs
-      python310Full
-      python310Packages.pip
+      python312Full
+      python312Packages.pip
       rustc
 
       # language servers
+      omnisharp-roslyn
       gopls
       haskell-language-server
       jsonnet-language-server
@@ -195,7 +196,7 @@
       gofumpt
       golines
       nixpkgs-fmt
-      python310Packages.black
+      python312Packages.black
       rustfmt
 
       # tools

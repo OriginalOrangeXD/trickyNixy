@@ -1,4 +1,5 @@
 local lspconfig = require 'lspconfig'
+local omnisharp_extended = require 'omnisharp_extended'
 local rust_tools = require 'rust-tools'
 local treesitter = require 'nvim-treesitter.configs'
 local treesitter_context = require 'treesitter-context'
@@ -19,8 +20,8 @@ local function autocmd(args)
 end
 
 local function on_attach(client, buffer)
-    -- local augroup_highlight = vim.api.nvim_create_augroup("custom-lsp-references", { clear = true })
-    -- local autocmd_clear = vim.api.nvim_clear_autocmds
+    local augroup_highlight = vim.api.nvim_create_augroup("custom-lsp-references", { clear = true })
+    local autocmd_clear = vim.api.nvim_clear_autocmds
 
     local opts = { buffer = buffer, remap = false }
 
@@ -43,17 +44,34 @@ local function on_attach(client, buffer)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, opts)
 
-    -- if client.server_capabilities.documentHighlightProvider then
-    --     autocmd_clear { group = augroup_highlight, buffer = buffer }
-    --     autocmd { "CursorHold", augroup_highlight, vim.lsp.buf.document_highlight, buffer }
-    --     autocmd { "CursorMoved", augroup_highlight, vim.lsp.buf.clear_references, buffer }
-    -- end
+    if client.server_capabilities.documentHighlightProvider then
+        autocmd_clear { group = augroup_highlight, buffer = buffer }
+        autocmd { "CursorHold", augroup_highlight, vim.lsp.buf.document_highlight, buffer }
+        autocmd { "CursorMoved", augroup_highlight, vim.lsp.buf.clear_references, buffer }
+    end
 end
 
 local function init()
+
     -- Rust specific setup
     rust_tools.setup {
         server = {
+            settings = {
+                ['rust-analyzer'] = {
+                    cargo = {
+                        buildScripts = {
+                            enable = true,
+                        },
+                    },
+                    diagnostics = {
+                        enable = false,
+                    },
+                    files = {
+                        excludeDirs = { ".direnv", ".git" },
+                        watcherExclude = { ".direnv", ".git" },
+                    },
+                },
+            },
             on_attach = on_attach,
         },
     }
@@ -61,6 +79,7 @@ local function init()
     local language_servers = {
         bashls = {},
         cssls = {},
+        dagger = {},
         diagnosticls = {
             filetypes = { "python" },
             init_options = {
@@ -91,8 +110,6 @@ local function init()
         html = {},
         jsonls = {},
         jsonnet_ls = {},
-        clangd = {},
-        arduino_language_server = {},
         lua_ls = {
             settings = {
                 Lua = {
@@ -118,6 +135,12 @@ local function init()
                 },
             }
         },
+        omnisharp = {
+            cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+            handlers = {
+                ["textDocument/definition"] = omnisharp_extended.handler,
+            },
+        },
         pyright = {
             settings = {
                 python = {
@@ -131,7 +154,13 @@ local function init()
         },
         terraformls = {},
         tsserver = {},
-        yamlls = {},
+        yamlls = {
+            settings = {
+                yaml = {
+                    keyOrdering = false,
+                },
+            },
+        },
     }
 
     -- Initialize servers
