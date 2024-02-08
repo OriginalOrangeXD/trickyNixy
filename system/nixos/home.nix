@@ -56,6 +56,7 @@
 	  set -g mouse on
 
       set -g status-position top
+      set -g @plugin 'olimorris/tmux-pomodoro-plus'
     '';
     shell = "${pkgs.zsh}/bin/zsh";
 
@@ -117,6 +118,7 @@
       # languages
       vimPlugins.nvim-lspconfig
       vimPlugins.nvim-treesitter.withAllGrammars
+      vimPlugins.nvim-treesitter-parsers.templ
       vimPlugins.rust-tools-nvim
       vimPlugins.clangd_extensions-nvim
       vimPlugins.vimtex
@@ -155,6 +157,14 @@
       vimPlugins.rainbow-delimiters-nvim
       vimPlugins.omnisharp-extended-lsp-nvim
       #vimPlugins.nvim-web-devicons # https://github.com/intel/intel-one-mono/issues/9
+      vimPlugins.mason-nvim
+      vimPlugins.mason-lspconfig-nvim
+      vimPlugins.nvim-cmp
+      vimPlugins.cmp-nvim-lsp
+      vimPlugins.luasnip
+      vimPlugins.cmp_luasnip
+      vimPlugins.nvchad
+
 
       # configuration
       inputs.self.packages.${pkgs.system}.ruxy-nvim
@@ -170,8 +180,8 @@
       # languages
       jsonnet
       nodejs
-      python312Full
-      python312Packages.pip
+      python312
+      #python312Packages.pip
       rustc
 
       # language servers
@@ -196,7 +206,7 @@
       gofumpt
       golines
       nixpkgs-fmt
-      python312Packages.black
+      #python312Packages.black
       rustfmt
 
       # tools

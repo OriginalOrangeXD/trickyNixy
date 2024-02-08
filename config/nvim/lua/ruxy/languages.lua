@@ -3,6 +3,29 @@ local omnisharp_extended = require 'omnisharp_extended'
 local rust_tools = require 'rust-tools'
 local treesitter = require 'nvim-treesitter.configs'
 local treesitter_context = require 'treesitter-context'
+local mason = require 'mason'
+local mason_lsp = require 'mason-lspconfig'
+local cmp = require 'cmp'
+local luasnip = require 'luasnip'
+
+local custom_format = function()
+    if vim.bo.filetype == "templ" then
+        local bufnr = vim.api.nvim_get_current_buf()
+        local filename = vim.api.nvim_buf_get_name(bufnr)
+        local cmd = "templ fmt " .. vim.fn.shellescape(filename)
+
+        vim.fn.jobstart(cmd, {
+            on_exit = function()
+                -- Reload the buffer only if it's still the current buffer
+                if vim.api.nvim_get_current_buf() == bufnr then
+                    vim.cmd('e!')
+                end
+            end,
+        })
+    else
+        vim.lsp.buf.format()
+    end
+end
 
 local function autocmd(args)
     local event = args[1]
@@ -17,6 +40,7 @@ local function autocmd(args)
         end,
         once = args.once,
     })
+    vim.api.nvim_create_autocmd({ "BufWritePre" }, { pattern = { "*.templ" }, callback = custom_format })
 end
 
 local function on_attach(client, buffer)
@@ -79,6 +103,7 @@ local function init()
     local language_servers = {
         bashls = {},
         cssls = {},
+        templ = {},
         dagger = {},
         diagnosticls = {
             filetypes = { "python" },
@@ -107,7 +132,16 @@ local function init()
             },
         },
         hls = {},
-        html = {},
+        html = {
+            filetypes = { "html", "templ" },
+        },
+        htmx = {
+            filetypes = { "html", "templ" },
+        },
+        tailwindcss = {
+            filetypes = { "templ", "astro", "javascript", "typescript", "react" },
+            init_options = { userLanguages = { templ = "html" } },
+        },
         jsonls = {},
         jsonnet_ls = {},
         lua_ls = {
@@ -183,6 +217,8 @@ local function init()
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
     vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
+    vim.filetype.add({ extension = { templ = "templ" } })
+
     treesitter.setup {
         highlight = { enable = true },
         indent = { enable = true },
@@ -190,6 +226,40 @@ local function init()
     }
 
     treesitter_context.setup()
+    cmp.setup({
+        completetion = {
+            completeopt = "menu,menuone,preview,noselect",
+        },
+        snippet = {
+            -- REQUIRED - you must specify a snippet engine
+            expand = function(args)
+                luasnip.lsp_expand(args.body) -- For `luasnip` users.
+            end,
+        },
+        mapping = cmp.mapping.preset.insert({
+            ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+            ['<C-f>'] = cmp.mapping.scroll_docs(4),
+            ['<C-Space>'] = cmp.mapping.complete(),
+            ['<C-e>'] = cmp.mapping.abort(),
+            ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        }),
+        sources = cmp.config.sources({
+            { name = 'nvim_lsp' },
+            { name = 'luasnip' }, -- For luasnip users.
+        }, {
+                { name = 'buffer' },
+            })
+    })
+    luasnip.setup() 
+
+    mason.setup()
+    mason_lsp.setup({
+    ensure_installed = {
+        "gopls",
+        },
+    automatic_installation = true,
+    }
+    )
 end
 
 return {

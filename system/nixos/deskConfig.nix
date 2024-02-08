@@ -138,6 +138,13 @@
           };
       };
   };
+    services.openssh = {
+        enable = true;
+# require public key authentication for better security
+        settings.PasswordAuthentication = true;
+        settings.KbdInteractiveAuthentication = false;
+#settings.PermitRootLogin = "yes";
+    };
   nixpkgs.overlays = [
     (self: super: {
         dwm = super.dwm.overrideAttrs(_: {

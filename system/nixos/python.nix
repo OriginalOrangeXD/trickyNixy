@@ -11,7 +11,7 @@ let python =
         };
     };
     in
-      pkgs.python3.override {inherit packageOverrides; self = python;};
+      pkgs.python312.override {inherit packageOverrides; self = python;};
 in
 {
 environment.systemPackages = with pkgs; [

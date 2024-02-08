@@ -136,9 +136,18 @@ programs.zsh = {
     plugins = [ "git" "thefuck" ];
   };
 };
-  fonts.fonts = with pkgs; [
-        (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-  ];
+fonts ={
+    packages = 
+        with pkgs; [
+        (nerdfonts.override { fonts = [ "Agave" ]; })
+        ];
+          fontconfig = {
+    defaultFonts = {
+      monospace = [ "AgaveNerdFontMono-Regular" ];
+    };
+  };
+};
+
     services.udev.extraRules = ''
       # UDEV rules for Teensy USB devices
       ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
