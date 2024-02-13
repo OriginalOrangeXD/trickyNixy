@@ -4,7 +4,7 @@
 
 { pkgs, ... }:
 {
-  nix.settings.trusted-users = [ "root" "ruxy" ];
+  nix.settings.trusted-users = [ "root" "robby" ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
   services.usbmuxd.enable = true;	
@@ -14,7 +14,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Set your time zone.
-  time.timeZone = "America/NewYork";
+  time.timeZone = "America/New_York";
   virtualisation.docker.enable = true;
 
   # Select internationalisation properties.
@@ -34,15 +34,11 @@
     gcc_multi
     docker
     go
-    tetex
-    texlive.combined.scheme-full
     bluez
     zathura
     ripgrep
     wget
     corectrl
-    nodejs_18
-    dwm
     clang-tools
     arduino
     nnn
@@ -55,9 +51,6 @@
     gh
     terminus_font
     starship
-    glxinfo
-    rofi
-    steam
     git
     busybox
     starship
@@ -65,62 +58,25 @@
     tldr
     zsh
     unzip
-    xfce.thunar
     arduino-cli
     flameshot
     nerdfonts
     rust-analyzer
-    nodePackages_latest.typescript-language-server
     arduino-language-server
-    looking-glass-client
     cachix
     teensy-loader-cli
     platformio
-    avrdude
-    xorg.xinit
     poetry
-    lutris
     killall
     bat
     openssl
-    picom
-    libgccjit
     gccgo13
     keepassxc
     thefuck
     tmux
     nitrogen
     neovim
-    kdenlive
-    mediainfo 
-    glaxnimate
-    audacity
-    cura
-    gst_all_1.gstreamer
-# Common plugins like "filesrc" to combine within e.g. gst-launch
-    gst_all_1.gst-plugins-base
-# Specialized plugins separated by quality
-    gst_all_1.gst-plugins-good
-    gst_all_1.gst-plugins-bad
-    gst_all_1.gst-plugins-ugly
-# Plugins to reuse ffmpeg to play almost every video format
-    gst_all_1.gst-libav
-# Support the Video Audio (Hardware) Acceleration API
-    gst_all_1.gst-vaapi
-    pcmanfm
-    (lutris.override {
-	extraPkgs = pkgs: [
-		wineWowPackages.stable
-		winetricks
-	];
-	})
   ];
-  programs.steam = {
-	enable = true;
-	remotePlay.openFirewall = true;
-	dedicatedServer.openFirewall = true;
-};
-  services.picom.enable = true;
   
 programs.zsh = {
 	enable = true;
@@ -162,7 +118,6 @@ fonts ={
   services.blueman.enable = true;
   services.gvfs.enable = true;
 
-  system.stateVersion = "23.05";
 }
 
 

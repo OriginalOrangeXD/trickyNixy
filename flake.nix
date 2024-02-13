@@ -17,8 +17,8 @@
 	    systems = [ "aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux" ];
 	    perSystem = { config, self', inputs', pkgs, system, ... }: {
 		    packages = {
-			    ruxy-nvim = pkgs.vimUtils.buildVimPlugin {
-				    name = "ruxy";
+			    robby-nvim = pkgs.vimUtils.buildVimPlugin {
+				    name = "robby";
 				    src = ./config/nvim;
 		            };
 		    };
@@ -29,6 +29,11 @@
 	  desktop = true;
           system = "x86_64";
           username = "ruxy";
+	};
+	frameLap = systems.mkNixOS {
+	  desktop = false;
+          system = "x86_64";
+          username = "robby";
 	};
 	ruxyLap = systems.mkNixOS {
 	  desktop = false;

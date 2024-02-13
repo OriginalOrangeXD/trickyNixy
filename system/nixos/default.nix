@@ -13,7 +13,7 @@ inputs.nixpkgs.lib.nixosSystem {
 		{
 			home-manager.useGlobalPkgs = true;
 			home-manager.useUserPackages = true;
-			home-manager.users.ruxy = import ./home.nix {
+			home-manager.users.robby = import ./home.nix {
 				inherit desktop inputs;
 			};
 		}
@@ -22,9 +22,7 @@ inputs.nixpkgs.lib.nixosSystem {
             # (import ./python.nix)
 			(import ./deskConfig.nix { inherit desktop username; })
 	] else [ 
-        (import ./python.nix)
-		(import ./hardware/laptop.nix)
-	    (import ./postgres.nix)
-		(import ./lapConfig.nix { inherit desktop username; })
+		(import ./hardware/framework.nix)
+		(import ./frameConfig.nix { inherit desktop username; })
 	]);
 }
