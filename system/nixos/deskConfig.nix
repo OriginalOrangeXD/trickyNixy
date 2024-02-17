@@ -39,30 +39,34 @@
 
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = ["amdgpu"];
-  services.xserver.windowManager.dwm.enable = true;
-  services.xserver.displayManager.setupCommands = ''
-   ${pkgs.xorg.xrandr}/bin/xrandr --output DP-3 --mode 2560x1440 --output HDMI-1 --mode 1920x1080 --left-of DP-3
-  '';
-   services.xserver.displayManager = {
-		autoLogin = {
-			enable = true;
-			user = "ruxy";
-		};
-	};
+#   services.xserver.enable = true;
+#   services.xserver.videoDrivers = ["amdgpu"];
+#   services.xserver.windowManager.dwm.enable = true;
+#   services.xserver.displayManager.setupCommands = ''
+#    ${pkgs.xorg.xrandr}/bin/xrandr --output DP-3 --mode 2560x1440 --output HDMI-1 --mode 1920x1080 --left-of DP-3
+#   '';
+#    services.xserver.displayManager = {
+# 		autoLogin = {
+# 			enable = true;
+# 			user = "ruxy";
+# 		};
+# 	};
 
 
   
 
   # Configure keymap in X11
-  services.xserver.layout = "us";
+#  services.xserver.layout = "us";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ruxy = {
     isNormalUser = true;
     extraGroups = [ "docker" "wheel" "libvirtd" "kvm" "input" "disk" "libvirtd" "video" "audio"]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
+      lutris
+      steam
+      xfce.thunar
+      cura
       firefox
       arduino
       discord
@@ -74,6 +78,12 @@
    enable = true;
    secretKeyFile = "/home/ruxy/keys/cache-priv-key.pem";
  };
+   programs.steam = {
+       enable = true;
+       remotePlay.openFirewall = true;
+       dedicatedServer.openFirewall = true;
+ };
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -90,6 +100,13 @@
     write_stylus
     libimobiledevice
     freecad
+    (lutris.override {
+      extraPkgs = pkgs: [
+              wineWowPackages.stable
+              winetricks
+      ];
+      })
+
   ];
   systemd.tmpfiles.rules = [
 	  "f /dev/shm/looking-glass 0660 ruxy qemu-libvirtd -"
@@ -145,16 +162,6 @@
         settings.KbdInteractiveAuthentication = false;
 #settings.PermitRootLogin = "yes";
     };
-  nixpkgs.overlays = [
-    (self: super: {
-        dwm = super.dwm.overrideAttrs(_: {
-          src = builtins.fetchGit {
-        	url = "git@github.com:OriginalOrangeXD/dwm-ruxy.git";
-        	rev = "f7113e9907b4ed31444059a2251eebe501cde4d0";
-        };
-    });
-   })
-  ];
   system.stateVersion = "23.05";
 }
 

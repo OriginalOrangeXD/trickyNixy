@@ -7,6 +7,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 
   outputs = inputs@{ flake-parts, self, nixpkgs, home-manager, ... }:
@@ -17,8 +18,8 @@
 	    systems = [ "aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux" ];
 	    perSystem = { config, self', inputs', pkgs, system, ... }: {
 		    packages = {
-			    robby-nvim = pkgs.vimUtils.buildVimPlugin {
-				    name = "robby";
+			    ruxy-nvim = pkgs.vimUtils.buildVimPlugin {
+				    name = "ruxy";
 				    src = ./config/nvim;
 		            };
 		    };

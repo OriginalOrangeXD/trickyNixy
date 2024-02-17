@@ -90,8 +90,6 @@
     rust-analyzer
     arduino-language-server
     cachix
-discord
-	wofi
     teensy-loader-cli
     platformio
     poetry

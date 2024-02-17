@@ -1,11 +1,11 @@
-{ desktop, inputs }:
+{ desktop, inputs, username}:
 
 { config, pkgs, ... }:
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "robby";
-  home.homeDirectory = "/home/robby";
+  home.username = "${username}";
+  home.homeDirectory = "/home/${username}";
   home.stateVersion = "23.11"; 
 
   imports = if desktop then [ ./deskHome.nix ] else [ ./lapHome.nix ];
@@ -167,12 +167,12 @@
 
 
       # configuration
-      inputs.self.packages.${pkgs.system}.robby-nvim
+      inputs.self.packages.${pkgs.system}.ruxy-nvim
     ];
 
     extraConfig = ''
       lua << EOF
-        require 'robby'.init()
+        require 'ruxy'.init()
       EOF
     '';
 

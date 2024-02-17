@@ -1,9 +1,9 @@
 { inputs }:
 
-{ desktop, system, username }:
+{ desktop, system, username}:
 
 let 
-  default-conf = import ./defaultConfig.nix;
+  default-conf = import ./defaultConfig.nix { inherit username; };
 in 
 inputs.nixpkgs.lib.nixosSystem {
 	inherit system;
@@ -13,8 +13,8 @@ inputs.nixpkgs.lib.nixosSystem {
 		{
 			home-manager.useGlobalPkgs = true;
 			home-manager.useUserPackages = true;
-			home-manager.users.robby = import ./home.nix {
-				inherit desktop inputs;
+			home-manager.users.${username} = import ./home.nix {
+				inherit desktop inputs username;
 			};
 		}
 	] ++ (if desktop then [
