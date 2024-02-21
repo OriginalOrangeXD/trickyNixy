@@ -1,14 +1,10 @@
-{ desktop, inputs, username}:
-
-{ config, pkgs, ... }:
+{ config, pkgs,inputs, ... }:
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "${username}";
-  home.homeDirectory = "/home/${username}";
+  home.username = "ruxy";
+  home.homeDirectory = "/home/ruxy";
   home.stateVersion = "23.11"; 
-
-  imports = if desktop then [ ./deskHome.nix ] else [ ./lapHome.nix ];
 
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -42,6 +38,16 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+  };
+  programs.kitty = {
+      enable = true;
+      settings = {
+	  font_family = "Agave Nerd Font Mono Regular";
+          background_opacity = "0.9";
+          font_size = "17";
+	  enable_audio_bell="no";
+      };
+      theme = "Darkside";
   };
   programs.tmux = {
     enable = true;

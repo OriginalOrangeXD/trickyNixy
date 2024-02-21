@@ -1,5 +1,6 @@
 {
     pkgs,
+    inputs,
     ...
 }:
 
@@ -7,6 +8,7 @@
   imports = [
     ./hardware.nix
     ./temp.nix
+    inputs.home-manager.nixosModules.default
   ];
 
   config = {
@@ -96,6 +98,13 @@
     systemd.tmpfiles.rules = [
       "f /dev/shm/looking-glass 0660 ruxy qemu-libvirtd -"
     ];
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = { 
+      "ruxy" = import ./home.nix; 
+    };
+  };
 
 # more virt
     virtualisation.libvirtd = {
