@@ -1,7 +1,10 @@
-{ username }:
-{ pkgs,  ... }:
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running `nixos-help`).
+
+{ pkgs, ... }:
 {
-  nix.settings.trusted-users = [ "root" "${username}" ];
+  nix.settings.trusted-users = [ "root" "robby" ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
   services.usbmuxd.enable = true;	
@@ -11,7 +14,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Set your time zone.
-  time.timeZone = "America/NewYork";
+  time.timeZone = "America/New_York";
   virtualisation.docker.enable = true;
 
   # Select internationalisation properties.
@@ -28,12 +31,6 @@
   environment.systemPackages = with pkgs; [
     typst-lsp
     vim 
-    wofi
-    dunst
-    libnotify
-    swww
-    networkmanagerapplet
-    discord
     gcc_multi
     docker
     go
@@ -46,6 +43,7 @@
     arduino
     nnn
     dmenu
+    alacritty
     emacs
     st
     neofetch
@@ -119,24 +117,5 @@ fonts ={
   ];
   services.blueman.enable = true;
   services.gvfs.enable = true;
-  ### Desktop interaction
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  ### music + waybar
-  programs.waybar.enable = true;
-  services.mpd = {
-  enable = true;
-  musicDirectory = "/home/${username}/music";
-  extraConfig = ''
-  audio_output {
-    type "pulse"
-    name "ruxy-pulse"
-  }
-  '';
-  };
-
-  programs.hyprland.enable = true;
 
 }
-
-

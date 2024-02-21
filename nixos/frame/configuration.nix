@@ -6,6 +6,10 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ./harware.nix
+  ];
+  config = {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.allowUnfree = true;
@@ -130,6 +134,7 @@
   # networking.firewall.enable = false;
 
   system.stateVersion = "23.11"; # Did you read the comment?
+  };
 
 }
 

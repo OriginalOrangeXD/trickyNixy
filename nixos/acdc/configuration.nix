@@ -1,14 +1,12 @@
 {
-  config,
     pkgs,
-    lib,
-    inputs,
     ...
 }:
 
 {
   imports = [
-    ./harware.nix
+    ./hardware.nix
+    ./temp.nix
   ];
 
   config = {
@@ -149,6 +147,7 @@
       settings.KbdInteractiveAuthentication = false;
 #settings.PermitRootLogin = "yes";
     };
+	  programs.hyprland.enable = true;
   };
 }
 
