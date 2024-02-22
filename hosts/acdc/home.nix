@@ -6,6 +6,10 @@
   home.homeDirectory = "/home/ruxy";
   home.stateVersion = "23.11"; 
 
+  imports = [
+    ../../home
+  ];
+
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -224,8 +228,4 @@
       yarn
     ];
   };
-
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-  home.file.".background-image".source = ../../config/background-image;
 }
