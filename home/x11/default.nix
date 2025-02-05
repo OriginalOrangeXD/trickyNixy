@@ -1,6 +1,7 @@
 { ... }: {
   imports = [
+    ./xorg.nix
     ./leftwm.nix
-    ./rofi.nix
+    #    ./rofi.nix
   ];
 }

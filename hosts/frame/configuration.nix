@@ -1,7 +1,9 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{ inputs, pkgs, ... }:
+flake-overlays:
+
+{ inputs, pkgs, lib,... }:
 
 {
   imports = [
@@ -9,6 +11,8 @@
     ../../nixos
     inputs.home-manager.nixosModules.default
   ];
+  nixpkgs.overlays = [] ++ flake-overlays;
+
 
   nix.settings.trusted-users = [ "root" "robby" ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -54,10 +58,20 @@
       enable = true;
       setSocketVariable = true;
     };
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.robby = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "libvirtd" "networkmanager" "adbusers" "kvm" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "libvirtd" "networkmanager" "adbusers" "kvm" "wireshark" "podman"]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
     ];
@@ -69,6 +83,7 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+    #distrobox
     kitty
     git
     floorp
@@ -97,6 +112,10 @@
     xfce.thunar
     arduino-cli
     flameshot
+    moonlight-qt
+    matlab
+    wireshark
+    libreoffice-qt6-fresh
     brightnessctl
     nerdfonts
     v4l-utils
@@ -105,7 +124,7 @@
     cachix
     teensy-loader-cli
     platformio
-    virtualboxWithExtpack
+    #virtualboxWithExtpack
     poetry
     discord
     bmon
@@ -124,11 +143,18 @@
 	  driSupport32Bit = true; 
 	  extraPackages = with pkgs; [ libva vaapiVdpau libvdpau-va-gl ]; 
   }; 
-   virtualisation.virtualbox.host.enable = true;
+  #virtualisation.virtualbox.host.enable = true;
    users.extraGroups.vboxusers.members = [ "robby" ];
    users.defaultUserShell = pkgs.zsh;
 # rtkit is optional but recommended
 security.rtkit.enable = true;
+    security.wrappers."mount.cifs" = {
+      program = "mount.cifs";
+      source = "${lib.getBin pkgs.cifs-utils}/bin/mount.cifs";
+      owner = "root";
+      group = "root";
+      setuid = true;
+  };
 services.pipewire = {
   enable = true;
   alsa.enable = true;
@@ -161,6 +187,7 @@ services.pipewire = {
   security.pam.services.xscreensaver.fprintAuth = true;
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+  programs.wireshark.enable = true;
   users.groups.libvirtd.members = [ "root" "robby"];
 
   # Open ports in the firewall.
@@ -169,7 +196,7 @@ services.pipewire = {
  networking.firewall.allowedUDPPorts = [ 5000 5001 5002 5003 21000 21013 21010 10700 47998 48000];
  networking.firewall.allowedTCPPorts = [ 21000 21013 21010 10700];
   # Or disable the firewall altogether.
-  #networking.firewall.enable = false;
+  networking.firewall.enable = false;
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {

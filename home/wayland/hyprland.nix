@@ -26,6 +26,14 @@
         "$LAPTOP_KB_ENABLED" = true;
         env = [
           "XCURSOR_SIZE,24"
+          "XDG_CURRENT_DESKTOP,Hyprland"
+          "XDG_SESSION_TYPE,wayland"
+          "XDG_SESSION_DESKTOP,Hyprland"
+          "and"
+          "MOZ_ENABLE_WAYLAND,1"
+          "QT_QPA_PLATFORM,wayland"
+          "SDL_VIDEODRIVER,wayland"
+          "_JAVA_AWT_WM_NONREPARENTING,1"
         ];
         monitor = "eDP-1, 2256x1504@60Hz, 0x0, 1.333333 ";
         device = {
@@ -104,7 +112,6 @@
           "center, class:^(center)$"
         ];
         bind = [
-          "$MOD_SHIFT, Return, exec, $terminal"
           "$MOD, Return, exec, $terminal"
 	        "$MOD, E, exec, $editor"
           "$MOD, R, exec, $menu-run"
@@ -120,7 +127,7 @@
           "$MOD, L, layoutmsg, swapnext"
           "$MOD, K, layoutmsg, cycleprev"
           "$MOD, J, layoutmsg, cyclenext"
-          "$MOD, Return, layoutmsg, swapwithmaster"
+          "$MOD_SHIFT, Return, layoutmsg, focusmaster"
           "$MOD, O, layoutmsg, orientationcycle top left center"
           "$MOD, F, fullscreen"
           "$MOD, M, fullscreen, 1"

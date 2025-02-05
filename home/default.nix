@@ -1,7 +1,7 @@
 { ... }: {
   imports = [
     ./wayland
-    #./x11
+    ##./x11
     ./ruxy-nvim
   ];
 }

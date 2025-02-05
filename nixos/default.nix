@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ... }: {
   imports = [
     ./font.nix
     ./postgres.nix
@@ -55,6 +55,7 @@
     alacritty
     emacs
     st
+    godot_4
     neofetch
     kitty
     gh

@@ -29,7 +29,7 @@
         kb-row-left = "Control-h";
         kb-row-right = "Control-l";
       };
-      theme = ~/.config/rofi/config.rasi;
+      #theme = ~/.config/rofi/config.rasi;
     };
   };
 }

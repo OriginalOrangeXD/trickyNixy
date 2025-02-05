@@ -57,7 +57,7 @@
     clock24 = true;
     extraConfig = ''
       unbind C-b
-      set-option -g prefix C-a
+      set-option -g prefix C-v
       set-option -a terminal-overrides ",*256col*:RGB"
       setw -g mode-keys vi
       bind-key h select-pane -L

@@ -67,6 +67,7 @@
 
       set -g status-position top
       set -g @plugin 'olimorris/tmux-pomodoro-plus'
+      set -g status-right "#{pomodoro_status}"
     '';
     shell = "${pkgs.zsh}/bin/zsh";
 
