@@ -3,12 +3,13 @@ return {
   { -- Linting
     'mfussenegger/nvim-lint',
     -- NOTE: nixCats: return true only if category is enabled, else false
-    enabled = require('nixCatsUtils').enableForCategory("kickstart-lint"),
+    enabled = require('nixCatsUtils').enableForCategory 'kickstart-lint',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
+        swift = { 'swiftlint' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -52,6 +53,9 @@ return {
           require('lint').try_lint()
         end,
       })
+      vim.keymap.set('n', '<leader>ml', function()
+        require('lint').try_lint()
+      end, { desc = 'Lint file' })
     end,
   },
 }
