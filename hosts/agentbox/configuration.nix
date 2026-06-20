@@ -18,6 +18,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/pai.nix
   ];
 
   # ── Nix settings ────────────────────────────────────────────────────────
