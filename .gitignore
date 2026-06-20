@@ -1,3 +1,16 @@
-tags
-.luarc.json
-/result
+# Build artifacts
+result
+result-*
+
+# Decrypted secrets (paranoia — agenix never writes these to disk, but in case
+# you ever `agenix -d` for debugging, don't commit the plaintext)
+*.age.plain
+*.decrypted
+
+# Editor noise
+.direnv/
+.envrc.local
+*.swp
+
+# Local Claude Code settings — local tooling, never publish
+.claude/
