@@ -77,6 +77,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/mosh.nix
   ];
 
   # ── Nix settings ────────────────────────────────────────────────────────
@@ -218,11 +219,8 @@ in
   };
 
   # ── Firewall ──────────────────────────────────────────────────────────────
-  # 22 ssh on the LAN. mosh opens its own UDP range via programs.mosh below.
+  # 22 ssh on the LAN. mosh opens its own UDP range via ../../modules/mosh.nix.
   networking.firewall.allowedTCPPorts = [ 22 ];
-
-  # mosh: resilient roaming sessions for jumping onward over flaky links.
-  programs.mosh.enable = true;
 
   # ── Brightness keys on a terminal-only laptop ────────────────────────────
   # No desktop daemon exists to catch the brightness keys, so they're inert by
@@ -341,7 +339,6 @@ in
   environment.systemPackages = with pkgs; [
     # SSH / jump tooling
     openssh
-    mosh
     autossh            # keep tunnels alive
     sshfs              # mount remote filesystems over SSH
     wireguard-tools

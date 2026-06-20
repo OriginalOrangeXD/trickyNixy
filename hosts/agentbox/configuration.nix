@@ -19,6 +19,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/pai.nix
+    ../../modules/mosh.nix
   ];
 
   # ── Nix settings ────────────────────────────────────────────────────────
@@ -80,10 +81,8 @@
     };
   };
 
-  # mosh: roaming SSH that survives IP changes / sleep. Installs the package and
-  # opens its UDP 60000-61000 range (needed on the LAN; tailscale0 is already a
-  # trusted interface so mosh over the tailnet works regardless).
-  programs.mosh.enable = true;
+  # mosh + tmux are provided by ../../modules/mosh.nix (opens the UDP
+  # 60000-61000 range; tailscale0 is already a trusted interface regardless).
 
   # ── Docker ────────────────────────────────────────────────────────────────
   # Plain engine; agents are run by hand via `docker compose`. The compose v2
@@ -128,7 +127,6 @@
     curl
     htop
     btop
-    tmux
     fastfetch
     pciutils             # lspci — was missing on the stock install
     usbutils

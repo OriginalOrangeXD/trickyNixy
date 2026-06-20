@@ -30,6 +30,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/mosh.nix
   ];
 
   # ── Nix settings ────────────────────────────────────────────────────────
