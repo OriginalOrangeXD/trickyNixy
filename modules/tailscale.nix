@@ -25,4 +25,10 @@
   };
 
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
+
+  # SSH only over the tailnet. openssh.openFirewall defaults to true and opens
+  # port 22 on ALL interfaces independently of allowedTCPPorts — turn it off so
+  # 22 is reachable only via the trusted tailscale0 above (sshd still listens;
+  # the LAN just can't reach it). Physical console is the break-glass fallback.
+  services.openssh.openFirewall = false;
 }
