@@ -17,6 +17,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/mosh.nix
+    ../../modules/tailscale.nix
   ];
 
   # ── Nix settings ────────────────────────────────────────────────────────

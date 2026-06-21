@@ -20,6 +20,7 @@
     ./hardware-configuration.nix
     ../../modules/pai.nix
     ../../modules/mosh.nix
+    ../../modules/tailscale.nix
   ];
 
   # ── Nix settings ────────────────────────────────────────────────────────
@@ -96,16 +97,8 @@
     };
   };
 
-  # ── Tailscale: reach the box from anywhere, no LAN port-forwarding ─────────
-  # Carried over from the gaming build. `tailscale0` is trusted so agent
-  # services bound on the host are reachable to tailnet peers only. First run
-  # is interactive: `sudo tailscale up` once to (re)authenticate.
-  services.tailscale = {
-    enable             = true;
-    useRoutingFeatures = "client";
-    openFirewall       = true;   # UDP 41641 for the tailscale daemon
-  };
-  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  # Tailscale provided by ../../modules/tailscale.nix (enable + trust
+  # tailscale0). Already joined; re-auth with `sudo tailscale up` if needed.
 
   # ── Firewall ──────────────────────────────────────────────────────────────
   # 22 ssh on the LAN — that's the base. Agent container ports are reached over
