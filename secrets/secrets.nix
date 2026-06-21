@@ -60,4 +60,11 @@ in
   "pai-config.age" = {
     publicKeys = users ++ [ agentbox ];
   };
+
+  # Tailscale reusable pre-auth key for declarative tailnet join via
+  # services.tailscale.authKeyFile (modules/tailscale.nix). Both live hosts
+  # decrypt it at activation. Rotate from the Tailscale admin console.
+  "tailscale-authkey.age" = {
+    publicKeys = users ++ [ agentbox mediaserver ];
+  };
 }
