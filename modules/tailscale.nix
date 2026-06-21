@@ -18,7 +18,8 @@
 
   services.tailscale = {
     enable             = true;
-    useRoutingFeatures = "client";
+    # mkDefault so a host can promote itself to a subnet router ("both").
+    useRoutingFeatures = lib.mkDefault "client";
     openFirewall       = true;   # UDP 41641 for the tailscale daemon
     authKeyFile        = config.age.secrets.tailscale-authkey.path;
   };

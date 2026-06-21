@@ -25,13 +25,12 @@
       forAllEditors = nixpkgs.lib.genAttrs editorSystems;
     in {
 
-      # ── Media server at 192.168.1.10 — storage + media stack. Deploy with:
-      #      nixos-rebuild switch \
-      #        --flake .#mediaserver \
-      #        --target-host robby@192.168.1.10 \
-      #        --build-host  robby@192.168.1.10 \
-      #        --use-remote-sudo \
-      #        --ask-sudo-password    # first deploy only
+      # ── Media server (mediaserver / 192.168.1.10) — storage + media stack.
+      #    Also the tailnet subnet router (advertises 192.168.1.0/24). Deploy
+      #    on the box, or over the tailnet by MagicDNS name:
+      #      sudo nixos-rebuild switch --flake github:OriginalOrangeXD/trickyNixy#mediaserver
+      #    Remote: --target-host robby@mediaserver --build-host robby@mediaserver
+      #            --use-remote-sudo  (--ask-sudo-password on first run)
       nixosConfigurations.mediaserver = nixpkgs.lib.nixosSystem {
         system = hostSystem;
         specialArgs = { inherit inputs; };
@@ -65,12 +64,9 @@
       # ── Agent box at 192.168.1.79 — Docker host for self-hosted agents +
       #    the PAI instance. Plain Docker engine; containers run by hand via
       #    `docker compose`, not declared in Nix. Reached over Tailscale; no
-      #    LAN port-forwarding. Deploy with:
-      #      nixos-rebuild switch \
-      #        --flake .#agentbox \
-      #        --target-host robby@192.168.1.79 \
-      #        --build-host  robby@192.168.1.79 \
-      #        --use-remote-sudo
+      #    LAN port-forwarding. Deploy on the box, or over the tailnet:
+      #      sudo nixos-rebuild switch --flake github:OriginalOrangeXD/trickyNixy#agentbox
+      #    Remote: --target-host robby@agentbox --build-host robby@agentbox --use-remote-sudo
       nixosConfigurations.agentbox = nixpkgs.lib.nixosSystem {
         system = hostSystem;
         specialArgs = { inherit inputs; };

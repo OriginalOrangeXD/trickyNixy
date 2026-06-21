@@ -6,13 +6,11 @@
 # media services (jellyfin, *arr, etc.) are deferred — they land in later
 # modules once the base is verified.
 #
-# Deploy from the laptop:
-#   nixos-rebuild switch \
-#     --flake .#mediaserver \
-#     --target-host robby@192.168.1.10 \
-#     --build-host  robby@192.168.1.10 \
-#     --use-remote-sudo \
-#     --ask-sudo-password           # first deploy only; future deploys hands-free
+# Deploy (run on the box, or target it over the tailnet by MagicDNS name —
+# `mediaserver` resolves from anywhere, no LAN IP needed):
+#   sudo nixos-rebuild switch --flake github:OriginalOrangeXD/trickyNixy#mediaserver
+# Remote form: --target-host robby@mediaserver --build-host robby@mediaserver
+#              --use-remote-sudo  (add --ask-sudo-password on the first run)
 {
   imports = [
     ./hardware-configuration.nix
@@ -71,9 +69,19 @@
   };
 
   # ── Firewall ────────────────────────────────────────────────────────────
-  # 22 ssh — that's it for the base system. Media-service ports get added
-  #          per-module when the services land.
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  # SSH is reachable ONLY over the trusted tailscale0 interface now — no port
+  # 22 on the LAN. Media-service ports (80/443 Caddy, jellyfin) are still
+  # opened per-module for LAN access. Reach this box via `mediaserver`
+  # (MagicDNS) / its tailnet IP; physical console is the break-glass fallback.
+  networking.firewall.allowedTCPPorts = [ ];
+
+  # ── Subnet router: advertise the home LAN to the tailnet ──────────────────
+  # mediaserver is always-on, so it carries the 192.168.1.0/24 route — letting
+  # tailnet peers reach LAN-only devices (UniFi gateway, cameras, the Mac)
+  # from anywhere. Promotes this node from client to client+subnet-router.
+  # One-time: approve the advertised route in the Tailscale admin console.
+  services.tailscale.useRoutingFeatures = "both";
+  services.tailscale.extraSetFlags = [ "--advertise-routes=192.168.1.0/24" ];
 
   # ── IPv6 address-selection fix ──────────────────────────────────────────
   # This LAN hands out ULA IPv6 (fdeb:…/64) via SLAAC but has NO global IPv6

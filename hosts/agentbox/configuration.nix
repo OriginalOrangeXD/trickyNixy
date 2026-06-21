@@ -103,7 +103,10 @@
   # ── Firewall ──────────────────────────────────────────────────────────────
   # 22 ssh on the LAN — that's the base. Agent container ports are reached over
   # the trusted tailscale0 interface above, so they need no LAN openings here.
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  # SSH is reachable ONLY over the trusted tailscale0 interface now — no port
+  # 22 exposed on the LAN. Reach this box via `agentbox` (MagicDNS) / its
+  # tailnet IP. Physical console remains the break-glass fallback.
+  networking.firewall.allowedTCPPorts = [ ];
 
   # ── IPv6 address-selection fix (same LAN-wide ULA-IPv6 trap as the other
   #    hosts) ──────────────────────────────────────────────────────────────
